@@ -25,7 +25,12 @@
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTc0YTM2YzJjNmEwZDAwMTg0OTYwYmMiLCJpYXQiOjE3MDIxNDI4MjgsImV4cCI6MTcwMzM1MjQyOH0.LlYdP8mDT_yU8Wlvz_ZeH8g51ozja3iTAMasfkds8nI";
 
       const fetchData = () => {
-        fetch(apiUrl)
+        fetch(apiUrl, {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTc0YTM2YzJjNmEwZDAwMTg0OTYwYmMiLCJpYXQiOjE3MDIxNDI4MjgsImV4cCI6MTcwMzM1MjQyOH0.LlYdP8mDT_yU8Wlvz_ZeH8g51ozja3iTAMasfkds8nI",
+          },
+        })
           .then((response) => {
             console.log(response);
             if (response.status === 404)
@@ -46,14 +51,72 @@
             cardRow.className = "row p-4";
             cardContainer.appendChild(cardRow);
 
-            products.forEach((book) => {
+            products.forEach((product) => {
               const cardCol = document.createElement("div");
               cardCol.className = "col-12 col-sm-6 col-md-4 col-lg-3 mb-3 p-4";
+              const card = document.createElement("div");
+              card.className = "card";
+              const cardBodyOne = document.createElement("div");
+              cardBodyOne.className =
+                "card-body card-body-one d-flex flex-column";
+              const productName = document.createElement("div");
+              productName.textContent = product.name;
+              const productDescription = document.createElement("div");
+              productDescription.textContent = product.description;
+              const productBrand = document.createElement("div");
+              productBrand.textContent = product.productBrand;
+              const imageDiv = document.createElement("div");
+              const image = document.createElement("img");
+              image.src = product.imageUrl;
+              image.className = "card-img-top img-fluid";
+              image.alt = product.name;
+              const cardBodyTwo = document.createElement("div");
+              cardBodyOne.className =
+                "card-body card-body-two d-flex flex-column";
+              const productPrice = document.createElement("div");
+              productPrice.textContent = product.price;
+              const productId = document.createElement("div");
+              productId.textContent = product._id;
+              const productUserId = document.createElement("div");
+              productUserId.textContent = product.userId;
+              const createdAt = document.createElement("div");
+              createdAt.textContent = product.createdAt;
+              const updatedAt = document.createElement("div");
+              updatedAt.textContent = product.updatedAt;
+              const V = document.createElement("div");
+              V.textContent = product.__v;
+              const modifyBtnDiv = document.createElement("div");
+              modifyBtnDiv.className = "d-flex justify-content-center";
+              const modifyBtn = document.createElement("a");
+              modifyBtn.href = "#"; /* per ora */
+              modifyBtn.className = "btn btn-success mx-2 px-4";
+
+              /* appendo ogni ben dell'universo */
+              cardRow.appendChild(cardCol);
+              cardCol.appendChild(card);
+              card.appendChild(cardBodyOne);
+              cardBodyOne.appendChild(productName);
+              cardBodyOne.appendChild(productDescription);
+              cardBodyOne.appendChild(productBrand);
+              card.appendChild(imageDiv);
+              imageDiv.appendChild(image);
+              card.appendChild(cardBodyTwo);
+              cardBodyTwo.appendChild(productPrice);
+              cardBodyTwo.appendChild(productId);
+              cardBodyTwo.appendChild(productUserId);
+              cardBodyTwo.appendChild(createdAt);
+              cardBodyTwo.appendChild(updatedAt);
+              cardBodyTwo.appendChild(V);
+              cardBodyTwo.appendChild(modifyBtnDiv);
+              modifyBtnDiv.appendChild(modifyBtn);
             });
+          })
+          .catch((error) => {
+            console.error("Error fetching products", error);
           });
       };
-      /* --- */
-      /* qua ci metterò domcontentloaded */
+
+      window.addEventListener("DOMContentLoaded", fetchData);
     </script>
   </body>
 </html>
